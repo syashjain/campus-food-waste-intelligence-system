@@ -1,0 +1,447 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* DARK THEME (DEFAULT) — Harness.io Style System */
+    --color-void-canvas: #070707;
+    --color-carbon-plate: #0d0e12;
+    --color-obsidian: #141418;
+    --color-iron-edge: #2e3038;
+    --color-steel-border: #22222a;
+    --color-pure-white: #ffffff;
+    --color-cloud-mist: #f0f0f0;
+    --color-fog: #d9dae5;
+    --color-ash: #c8cad0;
+    --color-graphite: #aeaeb7;
+    --color-slate-mute: #a2a4a9;
+    --color-cinder: #60606c;
+    --color-phosphor-mint: #70dcd3;
+    --color-signal-blue: #0092e4;
+    --color-ice-blue: #a6e5f2;
+    --color-current-blue: #00ade4;
+    --color-deep-signal: #0677d4;
+    --color-verdant-edge: #75ae4c;
+    --color-steel-iris: #929dbd;
+
+    /* Legacy mapping helpers */
+    --color-carbon: #070707;
+    --color-graphite-card: #0d0e12;
+    --color-basalt: #2e3038;
+    --color-signal-green: #70dcd3;
+
+    /* Typography — Font Families */
+    --font-display: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-text: 'Geist', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+    /* Radii */
+    --radius-cards: 20px;
+    --radius-nestedcards: 16px;
+    --radius-badges: 800px;
+    --radius-inputs: 5px;
+    --radius-buttons: 800px;
+
+    /* Shadows */
+    --shadow-subtle: rgba(0, 0, 0, 0.05) 2px 2px 0px 0px;
+    --shadow-button-inset: rgb(255, 255, 255) 0px -1px 0px 0px inset, rgb(255, 255, 255) 1px 0px 0px 0px inset, rgb(255, 255, 255) -1px 0px 0px 0px inset, rgb(255, 255, 255) 0px 1px 0px 0px inset;
+  }
+
+  /* LIGHT THEME VARIABLES */
+  [data-theme="light"],
+  .light {
+    --color-void-canvas: #f8fafc;
+    --color-carbon-plate: #ffffff;
+    --color-obsidian: #f1f5f9;
+    --color-iron-edge: #cbd5e1;
+    --color-steel-border: #e2e8f0;
+    --color-pure-white: #0f172a;
+    --color-cloud-mist: #1e293b;
+    --color-fog: #cbd5e1;
+    --color-ash: #334155;
+    --color-graphite: #475569;
+    --color-slate-mute: #64748b;
+    --color-cinder: #94a3b8;
+    --color-phosphor-mint: #0d9488;
+    --color-signal-blue: #0284c7;
+    --color-ice-blue: #0369a1;
+    --color-current-blue: #0284c7;
+    --color-deep-signal: #0369a1;
+    --color-verdant-edge: #16a34a;
+    --color-steel-iris: #475569;
+
+    --color-carbon: #f8fafc;
+    --color-graphite-card: #ffffff;
+    --color-basalt: #e2e8f0;
+    --color-signal-green: #0d9488;
+
+    --shadow-subtle: rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
+    --shadow-button-inset: none;
+  }
+
+  body {
+    background-color: var(--color-void-canvas);
+    color: var(--color-ash);
+    font-family: var(--font-text);
+    letter-spacing: -0.017em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    color: var(--color-pure-white);
+    letter-spacing: 0.056em;
+  }
+
+  code, pre, .font-mono {
+    font-family: var(--font-mono);
+  }
+}
+
+/* ==========================================================================
+   HARNESS.IO COMMAND DECK DESIGN SYSTEM COMPONENTS
+   ========================================================================== */
+
+/* Dark/Light Surface Card: 1px border defining edge on canvas */
+.depot-card,
+.harness-card {
+  background-color: var(--color-carbon-plate);
+  border: 1px solid var(--color-fog);
+  border-radius: 20px;
+  position: relative;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Phosphor Accent Card: signature brand glow for featured metrics */
+.harness-card-accent,
+.depot-card-active {
+  background-color: var(--color-phosphor-mint);
+  color: var(--color-void-canvas);
+  border: 1px solid var(--color-fog);
+  border-radius: 20px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Secondary Surface: Obsidian (nested cards, code blocks, secondary panels) */
+.depot-panel,
+.harness-panel {
+  background-color: var(--color-obsidian);
+  border: 1px solid var(--color-iron-edge);
+  border-radius: 16px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Input Field: 5px radius, fill, rest border, focus border */
+.depot-input,
+.harness-input {
+  background-color: var(--color-carbon-plate);
+  border: 1px solid var(--color-iron-edge);
+  border-radius: 5px;
+  color: var(--color-pure-white);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.depot-input:focus,
+.depot-input:focus-within,
+.harness-input:focus {
+  outline: none;
+  border-color: var(--color-deep-signal);
+}
+
+/* Primary Action CTA: Filled Pill Button (800px radius) */
+.depot-btn-primary,
+.harness-btn-primary {
+  background-color: var(--color-pure-white);
+  color: var(--color-void-canvas);
+  font-weight: 500;
+  border-radius: 800px;
+  box-shadow: var(--shadow-button-inset);
+  transition: transform 0.15s ease, opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.depot-btn-primary:hover,
+.harness-btn-primary:hover {
+  opacity: 0.92;
+}
+
+/* Secondary Action: Ghost Pill Button */
+.depot-btn-ghost,
+.harness-btn-ghost {
+  background-color: transparent;
+  border: 1px solid var(--color-pure-white);
+  color: var(--color-pure-white);
+  font-weight: 500;
+  border-radius: 800px;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.depot-btn-ghost:hover,
+.harness-btn-ghost:hover {
+  background-color: rgba(125, 125, 125, 0.1);
+}
+
+/* Nav / Utility Pill Button */
+.depot-btn-nav,
+.harness-btn-nav {
+  background-color: transparent;
+  border: 1px solid var(--color-iron-edge);
+  color: var(--color-slate-mute);
+  border-radius: 800px;
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+}
+
+.depot-btn-nav:hover,
+.harness-btn-nav:hover {
+  border-color: var(--color-fog);
+  color: var(--color-pure-white);
+  background-color: rgba(125, 125, 125, 0.06);
+}
+
+/* Status Badges: 800px pill radius, wide tracking */
+.depot-tag,
+.harness-badge {
+  border-radius: 800px;
+  padding: 2px 10px;
+  font-family: var(--font-text);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.056em;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Badge variants */
+.harness-badge-success,
+.depot-tag {
+  border: 1px solid var(--color-verdant-edge);
+  color: var(--color-verdant-edge);
+  background: transparent;
+}
+
+.harness-badge-mint {
+  border: 1px solid var(--color-phosphor-mint);
+  color: var(--color-phosphor-mint);
+  background: transparent;
+}
+
+.harness-badge-info {
+  border: 1px solid var(--color-deep-signal);
+  color: var(--color-signal-blue);
+  background: transparent;
+}
+
+.harness-badge-neutral,
+.depot-tag-neutral {
+  border: 1px solid var(--color-iron-edge);
+  color: var(--color-graphite);
+  background: transparent;
+}
+
+.depot-tag-violet {
+  border: 1px solid var(--color-steel-iris);
+  color: var(--color-ice-blue);
+  background: transparent;
+}
+
+/* Base Canvas */
+.depot-canvas,
+.harness-canvas {
+  background-color: var(--color-void-canvas);
+  min-height: 100vh;
+}
+
+/* Structural Hairline Divider */
+.depot-divider,
+.harness-divider {
+  border-color: var(--color-iron-edge);
+}
+
+/* Eyebrow Label */
+.harness-eyebrow {
+  font-family: var(--font-text);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.094em;
+  color: var(--color-ice-blue);
+}
+
+/* ==========================================================================
+   LIGHT THEME ELEMENT LEVEL ADAPTATIONS
+   ========================================================================== */
+[data-theme="light"] header,
+.light header {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] aside,
+.light aside {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] main,
+.light main {
+  background-color: #f8fafc !important;
+}
+
+[data-theme="light"] footer,
+.light footer {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #64748b !important;
+}
+
+/* Card surfaces and inputs in Light Mode */
+[data-theme="light"] .harness-card,
+.light .harness-card {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .harness-panel,
+.light .harness-panel {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .harness-input,
+.light .harness-input {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .harness-btn-primary,
+.light .harness-btn-primary {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+}
+
+[data-theme="light"] .harness-btn-ghost,
+.light .harness-btn-ghost {
+  border-color: #0f172a !important;
+  color: #0f172a !important;
+}
+
+/* Card highlights in Light Mode */
+[data-theme="light"] .harness-card-accent,
+.light .harness-card-accent {
+  background-color: #ccfbf1 !important;
+  border-color: #14b8a6 !important;
+  color: #0f766e !important;
+  box-shadow: 0 4px 12px rgba(20, 184, 166, 0.15) !important;
+}
+
+[data-theme="light"] .harness-card-accent .bg-\[\#070707\],
+.light .harness-card-accent .bg-\[\#070707\] {
+  background-color: #0f766e !important;
+  color: #ffffff !important;
+  border-color: #0d9488 !important;
+}
+
+[data-theme="light"] .harness-card-accent span,
+[data-theme="light"] .harness-card-accent div,
+.light .harness-card-accent span,
+.light .harness-card-accent div {
+  color: #0f766e !important;
+}
+
+/* Recharts Terminal Tooltip in Light Mode */
+[data-theme="light"] .pointer-events-none.bg-\[\#070707\],
+.light .pointer-events-none.bg-\[\#070707\] {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] .pointer-events-none .bg-\[\#0d0e12\],
+.light .pointer-events-none .bg-\[\#0d0e12\],
+[data-theme="light"] .pointer-events-none .bg-\[\#141418\],
+.light .pointer-events-none .bg-\[\#141418\] {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .pointer-events-none span.text-\[\#ffffff\],
+.light .pointer-events-none span.text-\[\#ffffff\] {
+  color: #0f172a !important;
+}
+
+/* Light Theme Code and Table Adjustments */
+[data-theme="light"] pre,
+.light pre {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+  color: #0f766e !important;
+}
+
+[data-theme="light"] table thead,
+.light table thead {
+  background-color: #f8fafc !important;
+  color: #475569 !important;
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] table tbody tr,
+.light table tbody tr {
+  border-color: #f1f5f9 !important;
+}
+
+[data-theme="light"] table tbody tr:hover,
+.light table tbody tr:hover {
+  background-color: #f8fafc !important;
+}
+
+[data-theme="light"] table td.text-\[\#ffffff\],
+.light table td.text-\[\#ffffff\] {
+  color: #0f172a !important;
+}
+
+/* Light Mode Overrides for Hardcoded Dark Colors in General Components */
+[data-theme="light"] .bg-\[\#141418\],
+.light .bg-\[\#141418\] {
+  background-color: #f1f5f9 !important;
+}
+
+[data-theme="light"] .bg-\[\#0d0e12\],
+.light .bg-\[\#0d0e12\] {
+  background-color: #ffffff !important;
+}
+
+[data-theme="light"] .bg-\[\#070707\],
+.light .bg-\[\#070707\] {
+  background-color: #f8fafc !important;
+}
+
+[data-theme="light"] .border-\[\#22222a\],
+.light .border-\[\#22222a\],
+[data-theme="light"] .border-\[\#2e3038\],
+.light .border-\[\#2e3038\] {
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .text-\[\#ffffff\],
+.light .text-\[\#ffffff\] {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .text-\[\#aeaeb7\],
+.light .text-\[\#aeaeb7\] {
+  color: #64748b !important;
+}
+
+[data-theme="light"] .text-\[\#60606c\],
+.light .text-\[\#60606c\] {
+  color: #94a3b8 !important;
+}
+
+[data-theme="light"] .text-\[\#c8cad0\],
+.light .text-\[\#c8cad0\] {
+  color: #475569 !important;
+}

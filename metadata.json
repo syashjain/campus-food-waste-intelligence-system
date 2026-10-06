@@ -1,0 +1,6 @@
+{
+  "name": "Campus Food Waste Intelligence System (CFWIS)",
+  "description": "Enterprise-grade DBMS engineering platform for campus food operations, BCNF relational modeling, PostGIS spatial tracking, RLS security, and waste reduction analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
