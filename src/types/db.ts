@@ -6,6 +6,7 @@
 export type RoleCategory = 
   | 'SUPER_ADMIN'
   | 'CAMPUS_ADMIN'
+  | 'FINANCE_OFFICER'
   | 'MESS_MANAGER'
   | 'KITCHEN_STAFF'
   | 'PROCUREMENT_MANAGER'
@@ -28,8 +29,10 @@ export type OperationalStatus = 'ACTIVE' | 'INACTIVE' | 'MAINTENANCE';
 
 export interface Campus {
   campus_id: string;
+  id?: string;
   campus_code: string;
   name: string;
+  campus_name?: string;
   city: string;
   state: string;
   country: string;
@@ -42,12 +45,15 @@ export interface Campus {
 
 export interface Facility {
   facility_id: string;
+  id?: string;
   campus_id: string;
   facility_code: string;
   facility_name: string;
+  name?: string;
   facility_type: 'CENTRAL_MESS' | 'HOSTEL_MESS' | 'CAFETERIA' | 'NIGHT_CANTEEN';
   dining_capacity: number;
   operating_status: OperationalStatus;
+  status?: string;
   contact_phone: string;
   contact_email: string;
   lat: number;
@@ -60,6 +66,7 @@ export interface FoodPantryPartner {
   pantry_id: string;
   campus_id: string;
   partner_name: string;
+  pantry_name?: string;
   contact_person: string;
   contact_phone: string;
   storage_capacity_kg: number;
@@ -77,6 +84,7 @@ export interface Role {
 
 export interface UserAccount {
   user_id: string;
+  id?: string;
   campus_id: string;
   facility_id?: string;
   role_id: number;
@@ -84,6 +92,8 @@ export interface UserAccount {
   username: string;
   email: string;
   full_name: string;
+  name?: string;
+  role?: string;
   phone: string;
   is_active: boolean;
 }
@@ -98,11 +108,15 @@ export interface FoodCategory {
 
 export interface FoodItem {
   item_id: string;
+  id?: string;
   category_id: string;
+  category?: string;
+  vendor_id?: string;
   item_code: string;
   item_name: string;
   standard_unit: MeasurementUnit;
   standard_unit_cost: number;
+  unit_cost?: number;
   average_density_kg_per_unit: number;
   shelf_life_hours: number;
   is_perishable: boolean;
@@ -141,6 +155,7 @@ export interface DisposalMethod {
 
 export interface Vendor {
   vendor_id: string;
+  id?: string;
   campus_id: string;
   vendor_code: string;
   vendor_name: string;
@@ -150,6 +165,34 @@ export interface Vendor {
   tax_identifier: string;
   compliance_rating: number;
   is_active: boolean;
+}
+
+export interface WasteLog {
+  id: string;
+  waste_id?: string;
+  operation_id: string;
+  date: string;
+  facility_id: string;
+  item_id: string;
+  waste_kg: number;
+  financial_loss: number;
+  reason: string;
+  category?: string;
+  meal_period?: string;
+}
+
+export interface DailyOperation {
+  id: string;
+  operation_id?: string;
+  date: string;
+  facility_id: string;
+  campus_id: string;
+  expected: number;
+  actual_attendance: number;
+  meal_period?: string;
+  total_prepared_kg?: number;
+  total_consumed_kg?: number;
+  total_waste_kg?: number;
 }
 
 export interface CampusEvent {

@@ -83,7 +83,8 @@ export const Navbar: React.FC = () => {
             <select
               value={state.currentUserRole}
               onChange={(e) => handleRoleChange(e.target.value as RoleCategory)}
-              className="bg-transparent text-[#a6e5f2] font-medium focus:outline-none cursor-pointer text-xs"
+              className="bg-transparent text-[#a6e5f2] font-medium focus:outline-none cursor-pointer text-xs max-w-[160px] sm:max-w-[190px] truncate"
+              title={state.roles.find(r => r.role_code === state.currentUserRole)?.role_name}
             >
               {state.roles.map(r => (
                 <option key={r.role_id} value={r.role_code} className="bg-[var(--color-carbon-plate)] text-[var(--color-pure-white)]">

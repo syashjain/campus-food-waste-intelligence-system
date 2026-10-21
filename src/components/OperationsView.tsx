@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { 
   ChefHat, Scale, Trash2, Calendar, PlusCircle, CheckCircle, 
   AlertCircle, Users, Check, Clock, ShieldCheck, MapPin, 
-  Sparkles, Layers
+  Sparkles, Layers, Compass
 } from 'lucide-react';
 import { useRelationalDatabase } from '../store/dbStore';
 import { MeasurementUnit, WasteClassification } from '../types/db';
+import { GeospatialFacilitiesMap } from './GeospatialFacilitiesMap';
 
 export const OperationsView: React.FC = () => {
   const { state, db } = useRelationalDatabase();
-  const [activeSubTab, setActiveSubTab] = useState<'prep' | 'consumption' | 'waste' | 'attendance' | 'menu'>('waste');
+  const [activeSubTab, setActiveSubTab] = useState<'prep' | 'consumption' | 'waste' | 'attendance' | 'menu' | 'geospatial'>('waste');
   
   // Status feedback
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -147,38 +148,47 @@ export const OperationsView: React.FC = () => {
         </div>
 
         {/* Sub-tab Navigation */}
-        <div className="flex items-center bg-[#141418] border border-[#2e3038] p-1 rounded-full text-xs">
+        <div className="flex flex-wrap items-center bg-[var(--color-obsidian)] border border-[var(--color-iron-edge)] p-1 rounded-full text-xs">
           <button
             onClick={() => { setActiveSubTab('waste'); clearMessages(); }}
-            className={`px-4 py-1.5 rounded-full font-medium transition-all ${
-              activeSubTab === 'waste' ? 'bg-[#ffffff] text-[#070707] font-semibold' : 'text-[#aeaeb7] hover:text-[#ffffff]'
+            className={`px-3.5 py-1.5 rounded-full font-medium transition-all cursor-pointer ${
+              activeSubTab === 'waste' ? 'bg-[var(--color-pure-white)] text-[var(--color-void-canvas)] font-semibold' : 'text-[var(--color-graphite)] hover:text-[var(--color-pure-white)]'
             }`}
           >
             Waste Entry
           </button>
           <button
             onClick={() => { setActiveSubTab('consumption'); clearMessages(); }}
-            className={`px-4 py-1.5 rounded-full font-medium transition-all ${
-              activeSubTab === 'consumption' ? 'bg-[#ffffff] text-[#070707] font-semibold' : 'text-[#aeaeb7] hover:text-[#ffffff]'
+            className={`px-3.5 py-1.5 rounded-full font-medium transition-all cursor-pointer ${
+              activeSubTab === 'consumption' ? 'bg-[var(--color-pure-white)] text-[var(--color-void-canvas)] font-semibold' : 'text-[var(--color-graphite)] hover:text-[var(--color-pure-white)]'
             }`}
           >
-            Consumption Entry
+            Consumption
           </button>
           <button
             onClick={() => { setActiveSubTab('prep'); clearMessages(); }}
-            className={`px-4 py-1.5 rounded-full font-medium transition-all ${
-              activeSubTab === 'prep' ? 'bg-[#ffffff] text-[#070707] font-semibold' : 'text-[#aeaeb7] hover:text-[#ffffff]'
+            className={`px-3.5 py-1.5 rounded-full font-medium transition-all cursor-pointer ${
+              activeSubTab === 'prep' ? 'bg-[var(--color-pure-white)] text-[var(--color-void-canvas)] font-semibold' : 'text-[var(--color-graphite)] hover:text-[var(--color-pure-white)]'
             }`}
           >
-            Preparation Entry
+            Preparation
           </button>
           <button
             onClick={() => { setActiveSubTab('attendance'); clearMessages(); }}
-            className={`px-4 py-1.5 rounded-full font-medium transition-all ${
-              activeSubTab === 'attendance' ? 'bg-[#ffffff] text-[#070707] font-semibold' : 'text-[#aeaeb7] hover:text-[#ffffff]'
+            className={`px-3.5 py-1.5 rounded-full font-medium transition-all cursor-pointer ${
+              activeSubTab === 'attendance' ? 'bg-[var(--color-pure-white)] text-[var(--color-void-canvas)] font-semibold' : 'text-[var(--color-graphite)] hover:text-[var(--color-pure-white)]'
             }`}
           >
             Attendance
+          </button>
+          <button
+            onClick={() => { setActiveSubTab('geospatial'); clearMessages(); }}
+            className={`px-3.5 py-1.5 rounded-full font-medium transition-all cursor-pointer flex items-center gap-1.5 ${
+              activeSubTab === 'geospatial' ? 'bg-[#70dcd3] text-[#070707] font-bold' : 'text-[#70dcd3] hover:text-[var(--color-pure-white)]'
+            }`}
+          >
+            <Compass className="w-3.5 h-3.5" />
+            <span>Spatial Map (PostGIS)</span>
           </button>
         </div>
       </div>
@@ -551,42 +561,42 @@ export const OperationsView: React.FC = () => {
       {/* TAB 4: ATTENDANCE ENTRY */}
       {activeSubTab === 'attendance' && (
         <div className="max-w-2xl harness-card p-6 space-y-5">
-          <div className="border-b border-[#22222a] pb-3">
-            <h2 className="text-base font-light text-[#ffffff] flex items-center gap-2 tracking-[0.056em]">
+          <div className="border-b border-[var(--color-steel-border)] pb-3">
+            <h2 className="text-base font-light text-[var(--color-pure-white)] flex items-center gap-2 tracking-[0.056em]">
               <Users className="w-4 h-4 text-[#a6e5f2]" />
               Dining Attendance &amp; Biometric Turnstile Headcount
             </h2>
-            <p className="text-xs text-[#aeaeb7]">Stores expected demand vs turnstile count for correlation</p>
+            <p className="text-xs text-[var(--color-graphite)]">Stores expected demand vs turnstile count for correlation</p>
           </div>
 
           <form onSubmit={handleRecordAttendance} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-[#aeaeb7] mb-1">Expected Attendance</label>
+                <label className="block text-xs font-medium text-[var(--color-graphite)] mb-1">Expected Attendance</label>
                 <input
                   type="number"
                   min="0"
                   value={attExpected}
                   onChange={(e) => setAttExpected(Number(e.target.value))}
-                  className="w-full harness-input rounded-[5px] p-2.5 text-xs text-[#ffffff] font-mono"
+                  className="w-full harness-input rounded-[5px] p-2.5 text-xs text-[var(--color-pure-white)] font-mono"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#aeaeb7] mb-1">Actual Attendance (Turnstile Count)</label>
+                <label className="block text-xs font-medium text-[var(--color-graphite)] mb-1">Actual Attendance (Turnstile Count)</label>
                 <input
                   type="number"
                   min="0"
                   value={attActual}
                   onChange={(e) => setAttActual(Number(e.target.value))}
-                  className="w-full harness-input rounded-[5px] p-2.5 text-xs text-[#ffffff] font-mono"
+                  className="w-full harness-input rounded-[5px] p-2.5 text-xs text-[var(--color-pure-white)] font-mono"
                   required
                 />
               </div>
             </div>
 
-            <div className="p-3 bg-[#141418] border border-[#2e3038] rounded-[14px] text-xs text-[#aeaeb7] flex justify-between">
+            <div className="p-3 bg-[var(--color-obsidian)] border border-[var(--color-iron-edge)] rounded-[14px] text-xs text-[var(--color-graphite)] flex justify-between">
               <span>Computed Generated Variance:</span>
               <span className={`font-mono font-bold ${attActual - attExpected < 0 ? 'text-[#f43f5e]' : 'text-[#70dcd3]'}`}>
                 {attActual - attExpected} students
@@ -595,13 +605,18 @@ export const OperationsView: React.FC = () => {
 
             <button
               type="submit"
-              className="w-full py-2.5 px-6 rounded-full harness-btn-primary transition-colors flex items-center justify-center gap-2 min-h-[42px]"
+              className="w-full py-2.5 px-6 rounded-full harness-btn-primary transition-colors flex items-center justify-center gap-2 min-h-[42px] cursor-pointer"
             >
               <Check className="w-4 h-4" />
               Save Attendance Record
             </button>
           </form>
         </div>
+      )}
+
+      {/* TAB 5: GEOSPATIAL POSTGIS RADAR & RESCUE ROUTING */}
+      {activeSubTab === 'geospatial' && (
+        <GeospatialFacilitiesMap />
       )}
 
     </div>

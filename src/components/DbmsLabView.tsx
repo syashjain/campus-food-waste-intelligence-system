@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { FlaskConical, RotateCcw } from 'lucide-react';
+import { FlaskConical, RotateCcw, Network } from 'lucide-react';
 import { useRelationalDatabase } from '../store/dbStore';
+import { SchemaDiagramVisualizer } from './SchemaDiagramVisualizer';
 
 export const DbmsLabView: React.FC = () => {
   const { state, db } = useRelationalDatabase();
-  const [activeModule, setActiveModule] = useState<'triggers' | 'transactions' | 'spatial' | 'rls' | 'bcnf'>('triggers');
+  const [activeModule, setActiveModule] = useState<'schema' | 'triggers' | 'transactions' | 'spatial' | 'rls' | 'bcnf'>('schema');
 
   // Trigger Sandbox States
   const [triggerItemPrepId, setTriggerItemPrepId] = useState(state.preparations[0]?.prep_id || '');
@@ -84,12 +85,21 @@ export const DbmsLabView: React.FC = () => {
             DBMS Academic Demonstration Laboratory
           </h1>
           <p className="text-sm text-[var(--color-graphite)] mt-1">
-            Interactive proofs for Triggers, Transaction Rollback, PostGIS Spatial queries, RLS Multi-Tenancy, and BCNF.
+            Interactive proofs for D3 Schema Relationships, Triggers, Transaction Rollback, PostGIS Spatial queries, RLS Multi-Tenancy, and BCNF.
           </p>
         </div>
 
         {/* Module Picker */}
         <div className="flex flex-wrap items-center bg-[var(--color-obsidian)] border border-[var(--color-iron-edge)] p-1 rounded-full text-xs">
+          <button
+            onClick={() => setActiveModule('schema')}
+            className={`px-4 py-1.5 rounded-full font-medium transition-all cursor-pointer flex items-center gap-1.5 ${
+              activeModule === 'schema' ? 'bg-[var(--color-pure-white)] text-[var(--color-void-canvas)] font-semibold' : 'text-[var(--color-graphite)] hover:text-[var(--color-pure-white)]'
+            }`}
+          >
+            <Network className="w-3.5 h-3.5 text-[#70dcd3]" />
+            Schema Graph
+          </button>
           <button
             onClick={() => setActiveModule('triggers')}
             className={`px-4 py-1.5 rounded-full font-medium transition-all cursor-pointer ${
@@ -132,6 +142,28 @@ export const DbmsLabView: React.FC = () => {
           </button>
         </div>
       </div>
+
+      {/* MODULE 0: D3 SCHEMA RELATIONSHIP GRAPH */}
+      {activeModule === 'schema' && (
+        <div className="space-y-4">
+          <div className="harness-card p-6">
+            <div className="border-b border-[var(--color-steel-border)] pb-3">
+              <span className="text-xs font-mono text-[#70dcd3] font-bold block">
+                Relational Entity-Relationship (ER) Topology Visualizer
+              </span>
+              <h2 className="text-base font-light text-[var(--color-pure-white)] mt-1 tracking-[0.056em]">
+                Interactive D3 Graph of Enterprise PostgreSQL Relations &amp; Foreign Key Constraints
+              </h2>
+              <p className="text-xs text-[var(--color-graphite)] mt-1">
+                Visualizes table definitions, primary keys (PK), foreign keys (FK), indices, domain partitioning, and live row metrics directly from the store. Drag nodes, zoom/pan, or filter by domain.
+              </p>
+            </div>
+            <div className="mt-4">
+              <SchemaDiagramVisualizer />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* MODULE 1: TRIGGERS SANDBOX */}
       {activeModule === 'triggers' && (

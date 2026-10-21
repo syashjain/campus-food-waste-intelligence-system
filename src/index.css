@@ -445,3 +445,44 @@
 .light .text-\[\#c8cad0\] {
   color: #475569 !important;
 }
+
+/* Print Media Styles for Reports & Printable PDF Generation */
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+  }
+  
+  header, nav, aside, .no-print {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
+  }
+  
+  .printable-document {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+  }
+
+  .printable-document table {
+    page-break-inside: auto;
+  }
+
+  .printable-document tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  .page-break-after {
+    page-break-after: always;
+  }
+}
+

@@ -31,48 +31,52 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab }) => {
   const { state } = useRelationalDatabase();
   const role = state.currentUserRole;
 
+  const currentRoleObj = state.roles.find(r => r.role_code === state.currentUserRole);
+  const currentUserObj = state.users.find(u => u.user_id === state.currentUserId);
+  const currentCampusObj = state.campuses.find(c => c.campus_id === state.currentCampusId);
+
   const navItems = [
     {
       id: 'dashboard' as ActiveTab,
       label: 'Analytics Dashboard',
       icon: LayoutDashboard,
       badge: '8 KPIs',
-      allowedRoles: ['SUPER_ADMIN', 'CAMPUS_ADMIN', 'MESS_MANAGER', 'ANALYST', 'STUDENT']
+      allowedRoles: ['SUPER_ADMIN', 'CAMPUS_ADMIN', 'FINANCE_OFFICER', 'MESS_MANAGER', 'ANALYST', 'STUDENT']
     },
     {
       id: 'operations' as ActiveTab,
       label: 'Daily Operations',
       icon: ChefHat,
       badge: 'Prep & Waste',
-      allowedRoles: ['SUPER_ADMIN', 'CAMPUS_ADMIN', 'MESS_MANAGER', 'KITCHEN_STAFF']
+      allowedRoles: ['SUPER_ADMIN', 'CAMPUS_ADMIN', 'FINANCE_OFFICER', 'MESS_MANAGER', 'KITCHEN_STAFF']
     },
     {
       id: 'procurement' as ActiveTab,
       label: 'Procurement & Vendors',
       icon: ShoppingBag,
       badge: 'PO / Costs',
-      allowedRoles: ['SUPER_ADMIN', 'CAMPUS_ADMIN', 'PROCUREMENT_MANAGER', 'ANALYST']
+      allowedRoles: ['SUPER_ADMIN', 'CAMPUS_ADMIN', 'FINANCE_OFFICER', 'PROCUREMENT_MANAGER', 'ANALYST']
     },
     {
       id: 'master-data' as ActiveTab,
       label: 'Facilities & Food Items',
       icon: Building2,
       badge: '32 Items',
-      allowedRoles: ['SUPER_ADMIN', 'CAMPUS_ADMIN', 'MESS_MANAGER']
+      allowedRoles: ['SUPER_ADMIN', 'CAMPUS_ADMIN', 'FINANCE_OFFICER', 'MESS_MANAGER']
     },
     {
       id: 'reports' as ActiveTab,
       label: 'Reporting Suite',
       icon: FileText,
       badge: '10 Reports',
-      allowedRoles: ['SUPER_ADMIN', 'CAMPUS_ADMIN', 'MESS_MANAGER', 'ANALYST']
+      allowedRoles: ['SUPER_ADMIN', 'CAMPUS_ADMIN', 'FINANCE_OFFICER', 'MESS_MANAGER', 'ANALYST']
     },
     {
       id: 'sql-workbench' as ActiveTab,
       label: 'SQL Workbench',
       icon: Terminal,
       badge: '20+ Queries',
-      allowedRoles: ['SUPER_ADMIN', 'CAMPUS_ADMIN', 'ANALYST', 'MESS_MANAGER', 'STUDENT', 'KITCHEN_STAFF', 'PROCUREMENT_MANAGER']
+      allowedRoles: ['SUPER_ADMIN', 'CAMPUS_ADMIN', 'FINANCE_OFFICER', 'ANALYST', 'MESS_MANAGER', 'STUDENT', 'KITCHEN_STAFF', 'PROCUREMENT_MANAGER']
     },
     {
       id: 'dbms-lab' as ActiveTab,
@@ -80,14 +84,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab }) => {
       icon: FlaskConical,
       badge: 'SSI / Triggers',
       highlight: true,
-      allowedRoles: ['SUPER_ADMIN', 'CAMPUS_ADMIN', 'ANALYST', 'MESS_MANAGER', 'STUDENT', 'KITCHEN_STAFF', 'PROCUREMENT_MANAGER']
+      allowedRoles: ['SUPER_ADMIN', 'CAMPUS_ADMIN', 'FINANCE_OFFICER', 'ANALYST', 'MESS_MANAGER', 'STUDENT', 'KITCHEN_STAFF', 'PROCUREMENT_MANAGER']
     },
     {
       id: 'audit-log' as ActiveTab,
       label: 'Audit & Forensic Log',
       icon: History,
       badge: `${state.auditLogs.length} events`,
-      allowedRoles: ['SUPER_ADMIN', 'CAMPUS_ADMIN', 'ANALYST']
+      allowedRoles: ['SUPER_ADMIN', 'CAMPUS_ADMIN', 'FINANCE_OFFICER', 'ANALYST']
     }
   ];
 
@@ -162,23 +166,29 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab }) => {
             </span>
           </div>
           
-          <div className="space-y-1 font-mono text-[11px]">
-            <div className="flex justify-between text-[var(--color-graphite)]">
+          <div className="space-y-1.5 font-mono text-[11px]">
+            <div className="flex justify-between items-center text-[var(--color-graphite)]">
               <span>User:</span>
-              <span className="text-[var(--color-pure-white)] font-medium truncate max-w-[120px]">{state.currentUserId}</span>
+              <span className="text-[var(--color-pure-white)] font-medium truncate max-w-[130px]" title={`${currentUserObj?.full_name || state.currentUserId} (${currentUserObj?.username || ''})`}>
+                {currentUserObj?.full_name || currentUserObj?.username || state.currentUserId}
+              </span>
             </div>
-            <div className="flex justify-between text-[var(--color-graphite)]">
+            <div className="flex justify-between items-center text-[var(--color-graphite)]">
               <span>Role:</span>
-              <span className="text-[#a6e5f2] font-semibold">{state.currentUserRole}</span>
+              <span className="text-[#a6e5f2] font-semibold truncate max-w-[130px]" title={currentRoleObj?.description || currentRoleObj?.role_name || state.currentUserRole}>
+                {currentRoleObj?.role_name || state.currentUserRole}
+              </span>
             </div>
-            <div className="flex justify-between text-[var(--color-graphite)]">
+            <div className="flex justify-between items-center text-[var(--color-graphite)]">
               <span>Campus:</span>
-              <span className="text-[#70dcd3] font-medium">{state.currentCampusId}</span>
+              <span className="text-[#70dcd3] font-medium truncate max-w-[130px]" title={`${currentCampusObj?.name} (${currentCampusObj?.city})`}>
+                {currentCampusObj?.campus_code || state.currentCampusId}
+              </span>
             </div>
-            <div className="flex justify-between text-[var(--color-graphite)]">
+            <div className="flex justify-between items-center text-[var(--color-graphite)]">
               <span>Facility:</span>
-              <span className="text-[var(--color-pure-white)] truncate max-w-[110px]">
-                {state.facilities.find(f => f.facility_id === state.currentFacilityId)?.facility_name || 'All'}
+              <span className="text-[var(--color-pure-white)] truncate max-w-[130px]" title={state.facilities.find(f => f.facility_id === state.currentFacilityId)?.facility_name}>
+                {state.facilities.find(f => f.facility_id === state.currentFacilityId)?.facility_name || 'All Facilities'}
               </span>
             </div>
           </div>

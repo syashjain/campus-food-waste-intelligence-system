@@ -129,7 +129,7 @@ class RelationalDatabaseEngine {
   // --- RLS FILTERED GETTERS ---
   // In PostgreSQL, RLS filters tables based on current_setting('app.current_campus_id')
   public getRlsFacilities(): Facility[] {
-    if (this.state.currentUserRole === 'SUPER_ADMIN') {
+    if (this.state.currentUserRole === 'SUPER_ADMIN' || this.state.currentUserRole === 'FINANCE_OFFICER') {
       return this.state.facilities;
     }
     return this.state.facilities.filter(f => f.campus_id === this.state.currentCampusId);
